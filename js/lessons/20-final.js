@@ -5,7 +5,7 @@
 import { count } from './helpers.js';
 
 export default {
-  n: '12',
+  n: '20',
   id: 'final',
   title: 'Final challenge',
   subtitle: 'One dashboard, every tool in its lane',
@@ -22,7 +22,7 @@ export default {
 
   challenges: [
     {
-      id: 'L12-A',
+      id: 'L20-A',
       title: 'The whole dashboard',
 
       brief: [

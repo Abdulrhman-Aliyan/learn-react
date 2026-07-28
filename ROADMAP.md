@@ -20,9 +20,11 @@ lesson in by importing it and putting it where it belongs.
 | 08 | Zustand | ✓ | — | 3 |
 | 09 | Redux | ✓ (reading only) | — | — |
 | 10 | React Query | ✓ | — | 3 |
-| 12 | Final challenge | ✓ | — | 1 |
+| 11 | React Router | ✓ | 6 | 1 |
+| 20 | Final challenge | ✓ | — | 1 |
 
-Slot 11 is reserved for **Authentication**, specced below.
+Slots 12–19 are free. **Authentication** is next, specced below; the Final challenge sits
+at 20 so the curriculum can grow without renumbering it again.
 
 Lessons 03, 07, 08 and 10 have explanations and challenges but no guided walkthrough.
 Adding one is authoring, not engineering: write a `guided` block with a `starter` and a
@@ -30,11 +32,16 @@ Adding one is authoring, not engineering: write a `guided` block with a `starter
 
 ## Next up, in priority order
 
-### 11 · Authentication — the one to build first
+### 12 · Authentication — the one to build first
 
 The most-requested real-world topic and the one that exercises everything already taught.
 Deliberately **not** built on `useContext`: auth state goes in a Zustand store, which
 sidesteps re-teaching the provider re-render tax and matches what most teams actually do.
+
+Lesson 11 already teaches the routing half — `<RequireAuth>`, `<Navigate replace>`, and
+carrying the attempted location through `location.state`. This lesson takes the session
+itself: real tokens, expiry, refresh, and logout. Build the guided walkthrough assuming
+the router lesson is done, and reuse its `RequireAuth` rather than re-teaching it.
 
 Guided walkthrough — a login flow that survives a refresh:
 
