@@ -40,9 +40,17 @@ try {
 
   /* Learner code runs inside an error boundary, but a throw from a timer or a
      rejected promise lands outside it. Route those to the sandbox log so they
-     stay visible instead of disappearing into the console. */
+     stay visible instead of disappearing into the console.
+
+     Cross-origin scripts — Monaco's CDN bundle and its worker — report as a
+     bare "Script error." with no stack, because the browser will not leak
+     details across origins. Those are never the learner's code, and three of
+     them sitting in the log before you have run anything is pure noise. */
   window.addEventListener('error', function (e) {
-    Runtime.log('fail', 'uncaught: ' + (e.message || e.error));
+    const message = e.message || String(e.error || '');
+    const opaque = !e.error && (!message || /^script error\.?$/i.test(message));
+    if (opaque) return;
+    Runtime.log('fail', 'uncaught: ' + message);
   });
 
   window.addEventListener('unhandledrejection', function (e) {

@@ -26,7 +26,7 @@ function ActiveStep({ row, revealed, onReveal, onPaste, hasRun }) {
   const failing = row.checks.filter(function (c) { return !c.passed; });
 
   return html`
-    <div className="rounded-lg border border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/40/60 p-3.5">
+    <div className="rounded-lg border border-blue-300 dark:border-blue-800 bg-blue-50/60 dark:bg-blue-950/40 p-3.5">
       <div className="flex gap-2.5">
         <${Tick} state="active" />
         <div className="min-w-0 flex-1">
