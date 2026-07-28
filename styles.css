@@ -1,0 +1,54 @@
+/* Everything visual that Tailwind utilities cannot express lives here, and
+   nothing else. The palette is stock Tailwind, applied in the markup. */
+
+html, body, #root { height: 100%; }
+
+/* Boot bar, shown before React mounts. */
+@keyframes boot-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+.boot-bar { animation: boot-slide 1.1s ease-in-out infinite; }
+
+/* The plain-textarea fallback editor and its line-number gutter must agree on
+   metrics exactly, or the numbers drift away from the lines. */
+.code-metrics {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 20px;
+  tab-size: 2;
+}
+textarea.editor { resize: none; }
+
+/* Lesson prose. Tailwind's reset strips paragraph spacing, and the explanation
+   is the one place on the page that reads as an article. */
+.prose-lesson p { margin-bottom: 0.85rem; line-height: 1.7; }
+.prose-lesson p:last-child { margin-bottom: 0; }
+.prose-lesson code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.875em;
+  background: #f1f5f9;          /* slate-100 */
+  color: #1d4ed8;               /* blue-700  */
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+}
+
+/* Monaco paints its own scrollbars; these are for the panels around it. */
+.thin-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+.thin-scroll::-webkit-scrollbar-track { background: transparent; }
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;          /* slate-300 */
+  border: 3px solid #f8fafc;    /* slate-50  */
+  border-radius: 999px;
+}
+.thin-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Highlight painted on the editor when a step says "show me the line". */
+.step-anchor-line { background: rgba(37, 99, 235, 0.10); }
+.step-anchor-glyph { background: #2563eb; width: 3px !important; margin-left: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-bar { animation: none; }
+  *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; }
+}
