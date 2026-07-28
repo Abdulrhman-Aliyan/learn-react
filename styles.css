@@ -1,7 +1,16 @@
 /* Everything visual that Tailwind utilities cannot express lives here, and
-   nothing else. The palette is stock Tailwind, applied in the markup. */
+   nothing else. The palette is stock Tailwind, applied in the markup.
+
+   Dark mode follows the browser: Tailwind's default `dark` strategy is
+   `media`, so every `dark:` class in the markup is already wired to
+   prefers-color-scheme with no toggle and nothing to persist. This file only
+   has to cover what utilities cannot reach — scrollbars, prose, the editor. */
 
 html, body, #root { height: 100%; }
+
+/* Tells the browser to render form controls, scrollbars and the canvas in the
+   matching scheme. Without this the native bits stay stubbornly light. */
+:root { color-scheme: light dark; }
 
 /* Boot bar, shown before React mounts. */
 @keyframes boot-slide {
@@ -47,6 +56,22 @@ textarea.editor { resize: none; }
 /* Highlight painted on the editor when a step says "show me the line". */
 .step-anchor-line { background: rgba(37, 99, 235, 0.10); }
 .step-anchor-glyph { background: #2563eb; width: 3px !important; margin-left: 3px; }
+
+@media (prefers-color-scheme: dark) {
+  .prose-lesson code {
+    background: #1e293b;        /* slate-800 */
+    color: #93c5fd;             /* blue-300  */
+  }
+
+  .thin-scroll::-webkit-scrollbar-thumb {
+    background: #334155;        /* slate-700 */
+    border-color: #020617;      /* slate-950 */
+  }
+  .thin-scroll::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+  .step-anchor-line { background: rgba(96, 165, 250, 0.14); }
+  .step-anchor-glyph { background: #60a5fa; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .boot-bar { animation: none; }

@@ -5,7 +5,7 @@
 import { count } from './helpers.js';
 
 export default {
-  n: '04',
+  n: '07',
   id: 'usecontext',
   title: 'useContext',
   subtitle: 'Sharing state, and the re-render tax',
@@ -21,7 +21,7 @@ export default {
 
   challenges: [
     {
-      id: 'L04-A',
+      id: 'L07-A',
       title: 'Provide the current user',
 
       brief: [
@@ -31,7 +31,7 @@ export default {
       ],
 
       starter: [
-        "// L04-A · Current user + role, shared across the dashboard",
+        "// L07-A · Current user + role, shared across the dashboard",
         "",
         "// TODO 1: create the context (default undefined, so useAuth can detect misuse)",
         "// const AuthContext = ...",
@@ -129,7 +129,7 @@ export default {
     },
 
     {
-      id: 'L04-B',
+      id: 'L07-B',
       title: 'Watch every consumer wake up',
 
       brief: [
@@ -141,8 +141,8 @@ export default {
       ],
 
       starter: [
-        "// L04-B · One context, one fast-changing value, three consumers",
-        "// Instrument it. Do not fix it yet — 04-C is the fix.",
+        "// L07-B · One context, one fast-changing value, three consumers",
+        "// Instrument it. Do not fix it yet — 07-C is the fix.",
         "",
         "const ScannerContext = createContext(undefined);",
         "",
@@ -223,7 +223,7 @@ export default {
         {
           label: 'Still a single shared context',
           test: function (s) { return count(s, /createContext\s*\(/g) === 1; },
-          hint: 'Keep one context here — this exercise is the diagnosis. Splitting it is 04-C.'
+          hint: 'Keep one context here — this exercise is the diagnosis. Splitting it is 07-C.'
         },
         {
           label: 'Provider value still built inline',
@@ -234,18 +234,18 @@ export default {
     },
 
     {
-      id: 'L04-C',
+      id: 'L07-C',
       title: 'Split the context, stop the churn',
 
       brief: [
         'Split into `UserContext` and `ThroughputContext` — use exactly those names.',
         '`useMemo` the user value so its identity survives the ticks.',
         'Each consumer reads only the context it needs. `ThroughputContext` should be read in exactly one place.',
-        'Target: account and role freeze at 1 render, the gauge keeps climbing. Compare against 04-B side by side — that contrast is the answer to "how do you fix context re-renders".'
+        'Target: account and role freeze at 1 render, the gauge keeps climbing. Compare against 07-B side by side — that contrast is the answer to "how do you fix context re-renders".'
       ],
 
       starter: [
-        "// L04-C · Two contexts, split by how often the value changes",
+        "// L07-C · Two contexts, split by how often the value changes",
         "",
         "const UserContext = createContext(undefined);",
         "// TODO 1: create ThroughputContext",

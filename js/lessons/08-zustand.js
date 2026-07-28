@@ -5,7 +5,7 @@
 import { count } from './helpers.js';
 
 export default {
-  n: '05',
+  n: '08',
   id: 'zustand',
   title: 'Zustand',
   subtitle: 'Same store, selective subscriptions',
@@ -21,7 +21,7 @@ export default {
 
   challenges: [
     {
-      id: 'L05-A',
+      id: 'L08-A',
       title: 'Build the queue store',
 
       brief: [
@@ -31,7 +31,7 @@ export default {
       ],
 
       starter: [
-        "// L05-A · The same queue, as a store",
+        "// L08-A · The same queue, as a store",
         "",
         "const SEED = [",
         "  { id: 'job_1001', file: 'invoice-4417.pdf',      status: 'done',       pages: 3 },",
@@ -126,18 +126,18 @@ export default {
     },
 
     {
-      id: 'L05-B',
+      id: 'L08-B',
       title: 'Selectors vs the whole store',
 
       brief: [
-        "Same four panels as 04-B, same 250ms tick. Every panel currently subscribes to the whole store, so every panel re-renders on every tick — context's problem, reproduced.",
+        "Same four panels as 07-B, same 250ms tick. Every panel currently subscribes to the whole store, so every panel re-renders on every tick — context's problem, reproduced.",
         'Give every panel a selector that reads only what it needs.',
-        'Leave the render badges in place and compare the numbers against 04-B and 04-C.',
+        'Leave the render badges in place and compare the numbers against 07-B and 07-C.',
         'Target: only the gauge climbs. No provider, no context splitting, no memo — just a selector.'
       ],
 
       starter: [
-        "// L05-B · The same measurement, with a store instead of a context",
+        "// L08-B · The same measurement, with a store instead of a context",
         "",
         "const useScannerStore = create(set => ({",
         "  user: { name: 'Dana Okoye', role: 'admin' },",
@@ -200,7 +200,7 @@ export default {
         'Calling the store hook with no argument is a request. What exactly is it requesting?',
         '`useScannerStore()` with no selector means "notify me about every change to anything". A selector narrows that to one slice, and the store compares just that slice with `Object.is` before deciding whether to re-render you. Reach all the way down to a primitive — `s => s.user.name`, not `s => s.user`.',
         'Replace each `const state = useScannerStore();` with a selector: `const name = useScannerStore(s => s.user.name);` and so on, then use the local variable in the JSX instead of `state.…`.',
-        'All four:\n\n  const name = useScannerStore(s => s.user.name);\n  const role = useScannerStore(s => s.user.role);\n  const depth = useScannerStore(s => s.queueDepth);\n  const throughput = useScannerStore(s => s.throughput);\n\nOnly the gauge climbs now. Compare that to 04-B, where memo could not achieve this, and 04-C, where it took two contexts and a useMemo.'
+        'All four:\n\n  const name = useScannerStore(s => s.user.name);\n  const role = useScannerStore(s => s.user.role);\n  const depth = useScannerStore(s => s.queueDepth);\n  const throughput = useScannerStore(s => s.throughput);\n\nOnly the gauge climbs now. Compare that to 07-B, where memo could not achieve this, and 07-C, where it took two contexts and a useMemo.'
       ],
 
       checks: [
@@ -228,7 +228,7 @@ export default {
     },
 
     {
-      id: 'L05-C',
+      id: 'L08-C',
       title: 'The new-object selector trap',
 
       brief: [
@@ -238,7 +238,7 @@ export default {
       ],
 
       starter: [
-        "// L05-C · Object selectors and reading without subscribing",
+        "// L08-C · Object selectors and reading without subscribing",
         "",
         "const useJobStore = create(set => ({",
         "  jobs: [",

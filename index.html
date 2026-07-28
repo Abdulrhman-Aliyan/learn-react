@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
 <title>React State Lab</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
@@ -25,18 +26,18 @@
 </script>
 </head>
 
-<body class="bg-slate-50 text-slate-900 antialiased">
+<body class="bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
 
 <div id="root">
-  <div class="flex h-full flex-col items-center justify-center gap-3 text-slate-400">
+  <div class="flex h-full flex-col items-center justify-center gap-3 text-slate-400 dark:text-slate-500">
     <div class="text-xs uppercase tracking-[0.2em]">Loading the lab</div>
-    <div class="h-1 w-44 overflow-hidden rounded-full bg-slate-200">
+    <div class="h-1 w-44 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
       <div class="boot-bar h-full w-1/3 rounded-full bg-blue-600"></div>
     </div>
   </div>
 </div>
 
-<div id="fatal" hidden class="mx-auto max-w-2xl p-8 font-mono text-[13px] leading-relaxed text-red-600"></div>
+<div id="fatal" hidden class="mx-auto max-w-2xl p-8 font-mono text-[13px] leading-relaxed text-red-600 dark:text-red-400"></div>
 
 <script>
   /* Classic script on purpose: it still runs in a browser that refuses to

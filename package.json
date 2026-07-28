@@ -1,0 +1,10 @@
+{
+  "name": "react-state-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser-only React state management lab. No dependencies and no build step - type:module is here so node can run scripts/verify.mjs against the .js lesson files. Serve the folder over http and open index.html.",
+  "scripts": {
+    "verify": "node scripts/verify.mjs"
+  }
+}

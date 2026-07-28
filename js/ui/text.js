@@ -9,7 +9,7 @@ import { html } from '../core/html.js';
 function emphasise(text, keyPrefix) {
   return text.split('**').map(function (chunk, i) {
     if (i % 2 === 0) return chunk;
-    return html`<strong key=${keyPrefix + '-' + i} className="font-semibold text-slate-900">${chunk}</strong>`;
+    return html`<strong key=${keyPrefix + '-' + i} className="font-semibold text-slate-900 dark:text-slate-100">${chunk}</strong>`;
   });
 }
 
@@ -21,7 +21,7 @@ export function Rich({ children }) {
       ${text.split('`').map(function (part, i) {
         if (i % 2 === 0) return emphasise(part, 'e' + i);
         return html`<code key=${i}
-          className="rounded bg-slate-100 px-1 py-0.5 font-mono text-[0.875em] text-blue-700">${part}</code>`;
+          className="rounded bg-slate-100 dark:bg-slate-800 px-1 py-0.5 font-mono text-[0.875em] text-blue-700 dark:text-blue-300">${part}</code>`;
       })}
     <//>`;
 }
@@ -29,7 +29,7 @@ export function Rich({ children }) {
 /* Paragraph list: what `explain` in every lesson file is made of. */
 export function Prose({ paragraphs }) {
   return html`
-    <div className="prose-lesson text-[14px] text-slate-700">
+    <div className="prose-lesson text-[14px] text-slate-700 dark:text-slate-300">
       ${paragraphs.map(function (p, i) {
         return html`<p key=${i}><${Rich}>${p}<//></p>`;
       })}
@@ -41,14 +41,14 @@ export function Prose({ paragraphs }) {
    A column is { title, tone: 'good' | 'bad' | 'neutral', bullets }. */
 
 const COLUMN_TONE = {
-  good:    { box: 'border-green-200 bg-green-50', title: 'text-green-800' },
-  bad:     { box: 'border-red-200 bg-red-50',     title: 'text-red-800' },
-  neutral: { box: 'border-slate-200 bg-white',    title: 'text-slate-600' }
+  good:    { box: 'border-green-200 dark:border-green-900 bg-green-50 dark:bg-green-950/40', title: 'text-green-800 dark:text-green-300' },
+  bad:     { box: 'border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/40',     title: 'text-red-800 dark:text-red-300' },
+  neutral: { box: 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900',    title: 'text-slate-600 dark:text-slate-400' }
 };
 
 function Bullets({ items, className }) {
   return html`
-    <ul className=${'space-y-1.5 ' + (className || 'text-[13.5px] text-slate-700')}>
+    <ul className=${'space-y-1.5 ' + (className || 'text-[13.5px] text-slate-700 dark:text-slate-300')}>
       ${items.map(function (b, i) {
         return html`
           <li key=${i} className="flex gap-2">
@@ -67,13 +67,13 @@ export function Reference({ blocks }) {
         return html`
           <section key=${i}>
             ${block.heading ? html`
-              <h3 className="mb-3 font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500">${block.heading}</h3>
+              <h3 className="mb-3 font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">${block.heading}</h3>
             ` : null}
 
             ${block.paragraphs ? html`<${Prose} paragraphs=${block.paragraphs} />` : null}
 
             ${block.code ? html`
-              <pre className="thin-scroll overflow-x-auto rounded-lg border border-slate-200 bg-white p-3 font-mono text-[12px] leading-[19px] text-slate-800">${block.code}</pre>
+              <pre className="thin-scroll overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 font-mono text-[12px] leading-[19px] text-slate-800 dark:text-slate-200">${block.code}</pre>
             ` : null}
 
             ${block.bullets ? html`<div className=${block.code ? 'mt-3' : ''}><${Bullets} items=${block.bullets} /></div>` : null}
@@ -85,7 +85,7 @@ export function Reference({ blocks }) {
                   return html`
                     <div key=${k} className=${'rounded-lg border p-4 ' + t.box}>
                       <h4 className=${'mb-2 font-mono text-[10px] uppercase tracking-[0.15em] ' + t.title}>${col.title}</h4>
-                      <${Bullets} items=${col.bullets} className="text-[13px] text-slate-700" />
+                      <${Bullets} items=${col.bullets} className="text-[13px] text-slate-700 dark:text-slate-300" />
                     </div>`;
                 })}
               </div>

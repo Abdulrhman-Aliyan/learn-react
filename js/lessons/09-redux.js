@@ -3,7 +3,7 @@
    lesson is being able to say when Redux earns its keep and when it does not. */
 
 export default {
-  n: '06',
+  n: '09',
   id: 'redux',
   title: 'Redux',
   subtitle: 'Concept only — when it earns its keep',

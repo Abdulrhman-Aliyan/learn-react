@@ -19,12 +19,19 @@ export function findMarkerLine(source, marker) {
 }
 
 /* Replaces the marker's line with `code`, verbatim — lesson files author the
-   absolute indentation they want. Returns null when the marker is gone, which
-   means the learner has already edited past needing this. */
-export function pasteAtMarker(source, marker, code) {
+   absolute indentation they want.
+
+   `lineCount` extends the replacement past the marker's own line, for a step
+   that collapses a run of lines into one thing (four useState calls becoming a
+   single useReducer, say). It counts from the marker line inclusive.
+
+   Returns null when the marker is gone, which means the learner has already
+   edited past needing this. */
+export function pasteAtMarker(source, marker, code, lineCount) {
   const lines = source.split('\n');
   const at = findMarkerLine(source, marker);
   if (at === -1) return null;
 
-  return lines.slice(0, at).concat(code.split('\n'), lines.slice(at + 1)).join('\n');
+  const span = Math.max(1, lineCount || 1);
+  return lines.slice(0, at).concat(code.split('\n'), lines.slice(at + span)).join('\n');
 }

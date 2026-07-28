@@ -27,10 +27,10 @@ const { useState, useEffect, useMemo, useRef, useCallback } = React;
 function TabButton({ active, disabled, onClick, children, hint }) {
   const base = 'rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors ';
   const tone = disabled
-    ? 'cursor-not-allowed text-slate-300'
+    ? 'cursor-not-allowed text-slate-300 dark:text-slate-600'
     : active
-      ? 'bg-slate-900 text-white'
-      : 'text-slate-600 hover:bg-slate-100';
+      ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'
+      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800';
   return html`
     <button type="button" disabled=${disabled} onClick=${onClick} title=${hint || ''} className=${base + tone}>
       ${children}
@@ -148,7 +148,7 @@ export function LessonView({ lesson }) {
 
   const onPaste = useCallback(function (step) {
     if (!step.reveal) return;
-    const next = pasteAtMarker(source, step.reveal.anchor, step.reveal.code);
+    const next = pasteAtMarker(source, step.reveal.anchor, step.reveal.code, step.reveal.lines);
     if (next == null) return;
     onSourceChange(next);
     if (editorApi.current) {
@@ -171,28 +171,28 @@ export function LessonView({ lesson }) {
         <${Prose} paragraphs=${lesson.explain} />
 
         ${lesson.reference ? html`
-          <div className="mt-8 border-t border-slate-200 pt-7">
+          <div className="mt-8 border-t border-slate-200 dark:border-slate-800 pt-7">
             <${Reference} blocks=${lesson.reference} />
           </div>
         ` : null}
 
         ${lesson.interview ? html`
-          <div className="mt-7 rounded-lg border border-slate-200 bg-white p-4">
-            <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500">say this in an interview</div>
-            <p className="mt-2 text-[13.5px] leading-relaxed text-slate-700"><${Rich}>${lesson.interview}<//></p>
+          <div className="mt-7 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+            <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">say this in an interview</div>
+            <p className="mt-2 text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-300"><${Rich}>${lesson.interview}<//></p>
           </div>
         ` : null}
 
         <div className="mt-7 flex flex-wrap gap-2">
           ${hasGuided ? html`
             <button type="button" onClick=${function () { setTab('guided'); }}
-              className="rounded-md bg-slate-900 px-4 py-2 text-[13px] font-medium text-white hover:bg-slate-700">
+              className="rounded-md bg-slate-900 px-4 py-2 text-[13px] font-medium text-white hover:bg-slate-700 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white">
               Start the guided task →
             </button>
           ` : null}
           ${challenges.length ? html`
             <button type="button" onClick=${function () { setTab('challenge'); }}
-              className="rounded-md border border-slate-300 bg-white px-4 py-2 text-[13px] font-medium text-slate-700 hover:bg-slate-50">
+              className="rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2 text-[13px] font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
               ${hasGuided
                 ? 'Skip to the challenge'
                 : (challenges.length > 1 ? 'Go to the challenges' : 'Go to the challenge')}
@@ -201,13 +201,13 @@ export function LessonView({ lesson }) {
         </div>
 
         ${!hasGuided && challenges.length ? html`
-          <p className="mt-4 text-[12.5px] leading-relaxed text-slate-400">
+          <p className="mt-4 text-[12.5px] leading-relaxed text-slate-400 dark:text-slate-500">
             This lesson has its explanation and challenges, but no step-by-step walkthrough yet.
           </p>
         ` : null}
 
         ${!hasGuided && !challenges.length ? html`
-          <p className="mt-7 text-[12.5px] leading-relaxed text-slate-400">
+          <p className="mt-7 text-[12.5px] leading-relaxed text-slate-400 dark:text-slate-500">
             Reading only — there is nothing to run for this one.
           </p>
         ` : null}
@@ -218,14 +218,14 @@ export function LessonView({ lesson }) {
 
   return html`
     <div className="flex h-full min-h-0 flex-col">
-      <div className="border-b border-slate-200 bg-white px-6 pt-5">
+      <div className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 pt-5">
         <${LessonHeader} lesson=${lesson} tab=${tab} setTab=${setTab}
                          hasGuided=${hasGuided} hasChallenge=${challenges.length > 0} compact=${true} />
       </div>
 
       <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[minmax(0,7fr)_minmax(0,9fr)]">
 
-        <div className="thin-scroll min-h-0 overflow-y-auto border-r border-slate-200 bg-slate-50 px-5 py-5">
+        <div className="thin-scroll min-h-0 overflow-y-auto border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-5 py-5">
           ${tab === 'guided' && stepResult ? html`
             <${StepList}
               result=${stepResult}
@@ -245,7 +245,7 @@ export function LessonView({ lesson }) {
                       <button key=${c.id} type="button"
                         onClick=${function () { setChallengeIndex(i); }}
                         className=${'rounded-md px-2.5 py-1 text-[12px] font-medium transition-colors ' +
-                          (on ? 'bg-slate-900 text-white' : 'border border-slate-300 bg-white text-slate-600 hover:bg-slate-50')}>
+                          (on ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900' : 'border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800')}>
                         ${String.fromCharCode(65 + i)}
                       </button>`;
                   })}
@@ -262,14 +262,14 @@ export function LessonView({ lesson }) {
         </div>
 
         <div className="flex min-h-0 flex-col">
-          <div className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-2">
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2">
             <div className="flex items-center gap-2">
               <button type="button" onClick=${doRun}
                 className="rounded-md bg-blue-600 px-3.5 py-1.5 text-[13px] font-medium text-white hover:bg-blue-700">
                 Run
               </button>
               <button type="button" onClick=${doReset}
-                className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50">
+                className="rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-1.5 text-[13px] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800">
                 Reset
               </button>
             </div>
@@ -278,7 +278,7 @@ export function LessonView({ lesson }) {
             </span>
           </div>
 
-          <div className="min-h-0 flex-[3] border-b border-slate-200">
+          <div className="min-h-0 flex-[3] border-b border-slate-200 dark:border-slate-800">
             <${Editor}
               value=${source}
               docKey=${exerciseId || 'none'}
@@ -286,8 +286,8 @@ export function LessonView({ lesson }) {
               onReady=${function (api) { editorApi.current = api; }} />
           </div>
 
-          <div className="thin-scroll min-h-0 flex-[2] overflow-y-auto bg-slate-50 px-4 py-3">
-            <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500">preview</div>
+          <div className="thin-scroll min-h-0 flex-[2] overflow-y-auto bg-slate-50 dark:bg-slate-900 px-4 py-3">
+            <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">preview</div>
             <${Preview}
               Component=${run.Component}
               compileError=${run.error}
@@ -295,7 +295,7 @@ export function LessonView({ lesson }) {
               onRuntimeError=${function (err) { setRuntimeError(err); }} />
           </div>
 
-          <div className="max-h-44 min-h-0 shrink-0 border-t border-slate-200 bg-white">
+          <div className="max-h-44 min-h-0 shrink-0 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
             <${SandboxLog} />
           </div>
         </div>
@@ -307,11 +307,11 @@ function LessonHeader({ lesson, tab, setTab, hasGuided, hasChallenge, compact })
   return html`
     <div className=${compact ? 'pb-3' : 'mb-6'}>
       <div className="flex flex-wrap items-baseline gap-x-3">
-        <span className="font-mono text-[11px] text-slate-400">${lesson.n}</span>
-        <h2 className=${(compact ? 'text-[18px]' : 'text-[26px]') + ' font-semibold tracking-tight text-slate-900'}>
+        <span className="font-mono text-[11px] text-slate-400 dark:text-slate-500">${lesson.n}</span>
+        <h2 className=${(compact ? 'text-[18px]' : 'text-[26px]') + ' font-semibold tracking-tight text-slate-900 dark:text-slate-100'}>
           ${lesson.title}
         </h2>
-        <span className="text-[13px] text-slate-500">${lesson.subtitle}</span>
+        <span className="text-[13px] text-slate-500 dark:text-slate-400">${lesson.subtitle}</span>
       </div>
 
       <div className=${(compact ? 'mt-2.5' : 'mt-4') + ' flex gap-1'}>

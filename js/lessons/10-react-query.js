@@ -3,7 +3,7 @@
    A replaces hand-rolled fetching, B writes, C polls. */
 
 export default {
-  n: '07',
+  n: '10',
   id: 'react-query',
   title: 'React Query',
   subtitle: 'Server state: cache, mutate, poll',
@@ -19,7 +19,7 @@ export default {
 
   challenges: [
     {
-      id: 'L07-A',
+      id: 'L10-A',
       title: 'useQuery: four states',
 
       brief: [
@@ -29,7 +29,7 @@ export default {
       ],
 
       starter: [
-        "// L07-A · The list, without the useEffect ceremony",
+        "// L10-A · The list, without the useEffect ceremony",
         "// mockApi.listJobs() fails ~20% of the time, so run it a few times",
         "// to see the error path.",
         "",
@@ -105,7 +105,7 @@ export default {
     },
 
     {
-      id: 'L07-B',
+      id: 'L10-B',
       title: 'useMutation and invalidate',
 
       brief: [
@@ -115,7 +115,7 @@ export default {
       ],
 
       starter: [
-        "// L07-B · Upload a document, then make the list catch up",
+        "// L10-B · Upload a document, then make the list catch up",
         "",
         "function App() {",
         "  const { data: jobs = [] } = useQuery({ queryKey: ['jobs'], queryFn: mockApi.listJobs });",
@@ -193,7 +193,7 @@ export default {
     },
 
     {
-      id: 'L07-C',
+      id: 'L10-C',
       title: 'Poll until the job is done',
 
       brief: [
@@ -203,7 +203,7 @@ export default {
       ],
 
       starter: [
-        "// L07-C · A long-running extraction, polled until it finishes",
+        "// L10-C · A long-running extraction, polled until it finishes",
         "// Each poll advances the job ~25%, so it completes after 4-5 ticks.",
         "",
         "function App() {",

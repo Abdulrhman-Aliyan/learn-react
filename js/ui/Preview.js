@@ -37,11 +37,11 @@ class PreviewBoundary extends React.Component {
     const coaching = explainError(message);
 
     return html`
-      <div className="rounded-lg border border-red-200 bg-red-50 p-3">
-        <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-red-600">runtime error</div>
-        <p className="mt-1.5 font-mono text-[12px] leading-relaxed text-red-700">${message}</p>
+      <div className="rounded-lg border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/40 p-3">
+        <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-red-600 dark:text-red-400">runtime error</div>
+        <p className="mt-1.5 font-mono text-[12px] leading-relaxed text-red-700 dark:text-red-300">${message}</p>
         ${coaching ? html`
-          <p className="mt-2.5 border-l-2 border-red-300 pl-2.5 text-[13px] leading-relaxed text-red-900">${coaching}</p>
+          <p className="mt-2.5 border-l-2 border-red-300 dark:border-red-800 pl-2.5 text-[13px] leading-relaxed text-red-900 dark:text-red-200">${coaching}</p>
         ` : null}
       </div>`;
   }
@@ -50,10 +50,10 @@ class PreviewBoundary extends React.Component {
 /* ---- sandbox log --------------------------------------------------------- */
 
 const LOG_TONE = {
-  api:  'text-blue-600',
-  ok:   'text-green-700',
-  fail: 'text-red-600',
-  user: 'text-slate-900'
+  api:  'text-blue-600 dark:text-blue-400',
+  ok:   'text-green-700 dark:text-green-300',
+  fail: 'text-red-600 dark:text-red-400',
+  user: 'text-slate-900 dark:text-slate-100'
 };
 
 export function SandboxLog() {
@@ -69,22 +69,22 @@ export function SandboxLog() {
   return html`
     <div className="flex min-h-0 flex-col">
       <div className="flex items-center justify-between px-3 py-2">
-        <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500">sandbox log</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">sandbox log</span>
         <button
           type="button"
           onClick=${function () { Runtime.clear(); }}
-          className="rounded px-2 py-0.5 font-mono text-[10px] text-slate-400 hover:bg-slate-100 hover:text-slate-600">
+          className="rounded px-2 py-0.5 font-mono text-[10px] text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-slate-300">
           clear
         </button>
       </div>
       <div ref=${boxRef} className="thin-scroll min-h-0 flex-1 overflow-y-auto px-3 pb-3">
         ${lines.length === 0
-          ? html`<p className="font-mono text-[11px] text-slate-400">Nothing logged yet. Call log('…') from your code, or run something that touches mockApi.</p>`
+          ? html`<p className="font-mono text-[11px] text-slate-400 dark:text-slate-500">Nothing logged yet. Call log('…') from your code, or run something that touches mockApi.</p>`
           : lines.map(function (l) {
               return html`
                 <div key=${l.id} className="flex gap-2 font-mono text-[11px] leading-relaxed">
-                  <span className="shrink-0 text-slate-300">${l.stamp}</span>
-                  <span className=${(LOG_TONE[l.kind] || 'text-slate-600') + ' break-all'}>${l.text}</span>
+                  <span className="shrink-0 text-slate-300 dark:text-slate-600">${l.stamp}</span>
+                  <span className=${(LOG_TONE[l.kind] || 'text-slate-600 dark:text-slate-400') + ' break-all'}>${l.text}</span>
                 </div>`;
             })}
       </div>
@@ -109,19 +109,19 @@ export function Preview({ Component, compileError, runId, onRuntimeError }) {
   return html`
     <div className="space-y-3">
       ${halted ? html`
-        <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
-          <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-amber-700">preview halted</div>
-          <p className="mt-1.5 whitespace-pre-line text-[13px] leading-relaxed text-amber-900">${halted}</p>
-          <p className="mt-2 text-[12px] text-amber-700">Fix the cause, then press Run again.</p>
+        <div className="rounded-lg border border-amber-200 dark:border-amber-900 bg-amber-50 dark:bg-amber-950/40 p-3">
+          <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-amber-700 dark:text-amber-400">preview halted</div>
+          <p className="mt-1.5 whitespace-pre-line text-[13px] leading-relaxed text-amber-900 dark:text-amber-200">${halted}</p>
+          <p className="mt-2 text-[12px] text-amber-700 dark:text-amber-400">Fix the cause, then press Run again.</p>
         </div>
       ` : null}
 
       ${compileError ? html`
-        <div className="rounded-lg border border-red-200 bg-red-50 p-3">
-          <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-red-600">
+        <div className="rounded-lg border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/40 p-3">
+          <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-red-600 dark:text-red-400">
             ${compileError.phase === 'compile' ? 'compile error' : 'error'}
           </div>
-          <p className="mt-1.5 whitespace-pre-line font-mono text-[12px] leading-relaxed text-red-700">
+          <p className="mt-1.5 whitespace-pre-line font-mono text-[12px] leading-relaxed text-red-700 dark:text-red-300">
             ${compileError.message}
           </p>
         </div>
@@ -136,7 +136,7 @@ export function Preview({ Component, compileError, runId, onRuntimeError }) {
       ` : null}
 
       ${!Component && !compileError ? html`
-        <p className="text-[13px] text-slate-400">Press Run to mount your component here.</p>
+        <p className="text-[13px] text-slate-400 dark:text-slate-500">Press Run to mount your component here.</p>
       ` : null}
     </div>`;
 }

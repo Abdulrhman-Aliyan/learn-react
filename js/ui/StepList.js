@@ -18,7 +18,7 @@ function Tick({ state }) {
   if (state === 'active') {
     return html`<span className=${base + 'bg-blue-600 text-white'} aria-hidden="true">▸</span>`;
   }
-  return html`<span className=${base + 'border border-slate-300 bg-white text-slate-300'} aria-hidden="true">•</span>`;
+  return html`<span className=${base + 'border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-300 dark:text-slate-600'} aria-hidden="true">•</span>`;
 }
 
 function ActiveStep({ row, revealed, onReveal, onPaste, hasRun }) {
@@ -26,52 +26,52 @@ function ActiveStep({ row, revealed, onReveal, onPaste, hasRun }) {
   const failing = row.checks.filter(function (c) { return !c.passed; });
 
   return html`
-    <div className="rounded-lg border border-blue-300 bg-blue-50/60 p-3.5">
+    <div className="rounded-lg border border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/40/60 p-3.5">
       <div className="flex gap-2.5">
         <${Tick} state="active" />
         <div className="min-w-0 flex-1">
-          <h4 className="text-[14px] font-semibold text-slate-900">${step.title}</h4>
+          <h4 className="text-[14px] font-semibold text-slate-900 dark:text-slate-100">${step.title}</h4>
 
-          <div className="mt-2 text-[13.5px] leading-relaxed text-slate-700">
+          <div className="mt-2 text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-300">
             <${Rich}>${step.do}<//>
           </div>
 
           ${step.why ? html`
-            <p className="mt-2.5 border-l-2 border-blue-400 pl-2.5 text-[13px] leading-relaxed text-slate-600">
-              <span className="font-medium text-slate-700">Why: </span><${Rich}>${step.why}<//>
+            <p className="mt-2.5 border-l-2 border-blue-400 dark:border-blue-700 pl-2.5 text-[13px] leading-relaxed text-slate-600 dark:text-slate-400">
+              <span className="font-medium text-slate-700 dark:text-slate-300">Why: </span><${Rich}>${step.why}<//>
             </p>
           ` : null}
 
           ${revealed && step.reveal ? html`
             <div className="mt-3">
-              <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500">the line</div>
-              <pre className="thin-scroll overflow-x-auto rounded-md border border-slate-200 bg-white p-2.5 font-mono text-[12px] leading-relaxed text-slate-800">${step.reveal.code}</pre>
+              <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">the line</div>
+              <pre className="thin-scroll overflow-x-auto rounded-md border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-2.5 font-mono text-[12px] leading-relaxed text-slate-800 dark:text-slate-200">${step.reveal.code}</pre>
             </div>
           ` : null}
 
           <div className="mt-3 flex flex-wrap gap-2">
             ${step.reveal && !revealed ? html`
               <button type="button" onClick=${function () { onReveal(step); }}
-                className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-[12px] font-medium text-slate-700 hover:bg-slate-50">
+                className="rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-2.5 py-1 text-[12px] font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
                 Show me the line
               </button>
             ` : null}
 
             ${step.reveal && revealed ? html`
               <button type="button" onClick=${function () { onPaste(step); }}
-                className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-[12px] font-medium text-slate-700 hover:bg-slate-50">
+                className="rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-2.5 py-1 text-[12px] font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
                 Paste it in for me
               </button>
             ` : null}
           </div>
 
           ${hasRun && failing.length ? html`
-            <div className="mt-3 space-y-1.5 border-t border-blue-200 pt-2.5">
-              <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500">not passing yet</div>
+            <div className="mt-3 space-y-1.5 border-t border-blue-200 dark:border-blue-900 pt-2.5">
+              <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">not passing yet</div>
               ${failing.map(function (c, i) {
                 return html`
-                  <div key=${i} className="text-[12.5px] leading-relaxed text-slate-600">
-                    <span className="font-medium text-slate-800">${c.label}. </span><${Rich}>${c.hint}<//>
+                  <div key=${i} className="text-[12.5px] leading-relaxed text-slate-600 dark:text-slate-400">
+                    <span className="font-medium text-slate-800 dark:text-slate-200">${c.label}. </span><${Rich}>${c.hint}<//>
                   </div>`;
               })}
             </div>
@@ -89,21 +89,21 @@ export function StepList({ result, revealedIds, onReveal, onPaste, hasRun }) {
   return html`
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500">
+        <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
           ${'guided task · ' + result.doneCount + ' of ' + rows.length}
         </span>
         ${doneRows.length ? html`
           <button type="button" onClick=${function () { setShowDone(!showDone); }}
-            className="rounded px-2 py-0.5 font-mono text-[10px] text-slate-400 hover:bg-slate-100 hover:text-slate-600">
+            className="rounded px-2 py-0.5 font-mono text-[10px] text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-slate-300">
             ${showDone ? 'hide finished' : 'show finished'}
           </button>
         ` : null}
       </div>
 
       ${result.allDone ? html`
-        <div className="rounded-lg border border-green-300 bg-green-50 p-3">
-          <p className="text-[13.5px] font-medium text-green-900">Every step passes. The walkthrough is done.</p>
-          <p className="mt-1 text-[13px] leading-relaxed text-green-800">
+        <div className="rounded-lg border border-green-300 dark:border-green-800 bg-green-50 dark:bg-green-950/40 p-3">
+          <p className="text-[13.5px] font-medium text-green-900 dark:text-green-200">Every step passes. The walkthrough is done.</p>
+          <p className="mt-1 text-[13px] leading-relaxed text-green-800 dark:text-green-300">
             Now try the challenge below — same tools, no steps.
           </p>
         </div>
@@ -115,16 +115,16 @@ export function StepList({ result, revealedIds, onReveal, onPaste, hasRun }) {
             return html`
               <div key=${row.step.id} className="flex items-center gap-2.5 px-1 py-1">
                 <${Tick} state="done" />
-                <span className="text-[13px] text-slate-400 line-through decoration-slate-300">${row.step.title}</span>
+                <span className="text-[13px] text-slate-400 dark:text-slate-500 line-through decoration-slate-300">${row.step.title}</span>
               </div>`;
           }
           return html`
-            <div key=${row.step.id} className="rounded-lg border border-slate-200 bg-white p-3">
+            <div key=${row.step.id} className="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3">
               <div className="flex gap-2.5">
                 <${Tick} state="done" />
                 <div className="min-w-0 flex-1">
-                  <h4 className="text-[13.5px] font-medium text-slate-700">${row.step.title}</h4>
-                  <div className="mt-1.5 text-[13px] leading-relaxed text-slate-500">
+                  <h4 className="text-[13.5px] font-medium text-slate-700 dark:text-slate-300">${row.step.title}</h4>
+                  <div className="mt-1.5 text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">
                     <${Rich}>${row.step.do}<//>
                   </div>
                 </div>
@@ -146,7 +146,7 @@ export function StepList({ result, revealedIds, onReveal, onPaste, hasRun }) {
         return html`
           <div key=${row.step.id} className="flex items-center gap-2.5 px-1 py-1">
             <${Tick} state="locked" />
-            <span className="text-[13px] text-slate-400">${row.step.title}</span>
+            <span className="text-[13px] text-slate-400 dark:text-slate-500">${row.step.title}</span>
           </div>`;
       })}
     </div>`;

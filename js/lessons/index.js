@@ -19,16 +19,22 @@
 import usestate from './01-usestate.js';
 import useeffect from './02-useeffect.js';
 import useref from './03-useref.js';
-import usecontext from './04-usecontext.js';
-import zustand from './05-zustand.js';
-import redux from './06-redux.js';
-import reactQuery from './07-react-query.js';
-import final from './08-final.js';
+import usereducer from './04-usereducer.js';
+import memoization from './05-memo.js';
+import customHooks from './06-custom-hooks.js';
+import usecontext from './07-usecontext.js';
+import zustand from './08-zustand.js';
+import redux from './09-redux.js';
+import reactQuery from './10-react-query.js';
+import final from './12-final.js';
 
 export const LESSONS = [
   usestate,
   useeffect,
   useref,
+  usereducer,
+  memoization,
+  customHooks,
   usecontext,
   zustand,
   redux,

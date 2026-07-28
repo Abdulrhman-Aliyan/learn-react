@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { html } from '../core/html.js';
-import { loadMonaco, monacoStore, MONACO_THEME } from './monaco.js';
+import { loadMonaco, monacoStore, currentTheme } from './monaco.js';
 import { plainSnippet } from './snippets.js';
 
 const { useState, useEffect, useRef, useSyncExternalStore, useCallback } = React;
@@ -32,7 +32,7 @@ function MonacoPane({ value, docKey, onChange, onReady }) {
     const editor = monaco.editor.create(hostRef.current, {
       value: latest.current.value,
       language: 'javascript',
-      theme: MONACO_THEME,
+      theme: currentTheme(),
       fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
       fontSize: 13,
       lineHeight: 20,
@@ -194,15 +194,15 @@ function PlainPane({ value, docKey, onChange, onReady }) {
   for (let i = 1; i <= lineCount; i++) numbers.push(i);
 
   return html`
-    <div className="flex h-full w-full overflow-hidden bg-white">
+    <div className="flex h-full w-full overflow-hidden bg-white dark:bg-slate-900">
       <div ref=${gutterRef}
-           className="code-metrics select-none overflow-hidden border-r border-slate-200 bg-slate-50 px-2 py-3 text-right text-slate-400">
+           className="code-metrics select-none overflow-hidden border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-2 py-3 text-right text-slate-400 dark:text-slate-500">
         ${numbers.map(function (n) { return html`<div key=${n}>${n}</div>`; })}
       </div>
       <textarea
         ref=${areaRef}
         key=${docKey}
-        className="editor code-metrics thin-scroll h-full w-full flex-1 bg-white px-3 py-3 text-slate-800 outline-none"
+        className="editor code-metrics thin-scroll h-full w-full flex-1 bg-white dark:bg-slate-900 px-3 py-3 text-slate-800 dark:text-slate-200 outline-none"
         spellCheck=${false}
         autoCapitalize="off"
         autoCorrect="off"
@@ -230,9 +230,9 @@ export function Editor(props) {
 }
 
 export const EDITOR_STATUS_LABEL = {
-  loading: { text: 'loading code editor', tone: 'text-slate-400', title: 'Downloading the Monaco editor. The plain editor works in the meantime.' },
-  ready:   { text: 'VS Code editor', tone: 'text-blue-600', title: 'Monaco — the editor VS Code is built on. Ctrl+Space for suggestions, F1 for the command palette.' },
-  plain:   { text: 'plain editor', tone: 'text-slate-400', title: 'Monaco could not be reached, so the lab is using its built-in editor. Everything still works.' }
+  loading: { text: 'loading code editor', tone: 'text-slate-400 dark:text-slate-500', title: 'Downloading the Monaco editor. The plain editor works in the meantime.' },
+  ready:   { text: 'VS Code editor', tone: 'text-blue-600 dark:text-blue-400', title: 'Monaco — the editor VS Code is built on. Ctrl+Space for suggestions, F1 for the command palette.' },
+  plain:   { text: 'plain editor', tone: 'text-slate-400 dark:text-slate-500', title: 'Monaco could not be reached, so the lab is using its built-in editor. Everything still works.' }
 };
 
 export function useEditorStatus() {

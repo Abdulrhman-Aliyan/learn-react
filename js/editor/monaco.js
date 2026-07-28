@@ -8,12 +8,25 @@ import { LAB_SNIPPETS } from './snippets.js';
 
 const MONACO_CDN = 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs';
 
-export const MONACO_THEME = 'lab-light';
+/* Monaco paints its own surface, so `dark:` classes cannot reach it. Two
+   themes, picked from the same media query Tailwind is using, and re-applied
+   if the OS setting changes while the lab is open. */
+
+const DARK_QUERY = '(prefers-color-scheme: dark)';
+
+export function prefersDark() {
+  return typeof window.matchMedia === 'function' && window.matchMedia(DARK_QUERY).matches;
+}
+
+export function currentTheme() {
+  return prefersDark() ? 'lab-dark' : 'lab-light';
+}
+
 
 function configureMonaco(monaco) {
-  /* A light theme to match the page. Stock 'vs' is close, but its comment grey
-     is too faint next to Tailwind slate. */
-  monaco.editor.defineTheme(MONACO_THEME, {
+  /* Stock 'vs' is close, but its comment grey is too faint next to Tailwind
+     slate, and the keyword blue fights the accent. */
+  monaco.editor.defineTheme('lab-light', {
     base: 'vs',
     inherit: true,
     rules: [
@@ -36,6 +49,49 @@ function configureMonaco(monaco) {
       'editorIndentGuide.activeBackground1': '#CBD5E1'
     }
   });
+
+  /* slate-900 surface, to sit flush with the panels around it. */
+  monaco.editor.defineTheme('lab-dark', {
+    base: 'vs-dark',
+    inherit: true,
+    rules: [
+      { token: '', foreground: 'E2E8F0' },
+      { token: 'comment', foreground: '64748B', fontStyle: 'italic' },
+      { token: 'keyword', foreground: 'C4B5FD' },
+      { token: 'string', foreground: '6EE7B7' },
+      { token: 'number', foreground: 'FCD34D' },
+      { token: 'tag', foreground: '7DD3FC' },
+      { token: 'attribute.name', foreground: 'C4B5FD' },
+      { token: 'attribute.value', foreground: '6EE7B7' },
+      { token: 'identifier', foreground: 'E2E8F0' }
+    ],
+    colors: {
+      'editor.background': '#0F172A',
+      'editor.foreground': '#E2E8F0',
+      'editorLineNumber.foreground': '#334155',
+      'editorLineNumber.activeForeground': '#60A5FA',
+      'editor.lineHighlightBackground': '#1E293B',
+      'editorCursor.foreground': '#60A5FA',
+      'editor.selectionBackground': '#1D4ED855',
+      'editorIndentGuide.background1': '#1E293B',
+      'editorIndentGuide.activeBackground1': '#334155',
+      'editorSuggestWidget.background': '#0F172A',
+      'editorSuggestWidget.border': '#1E293B',
+      'editorHoverWidget.background': '#0F172A',
+      'editorHoverWidget.border': '#1E293B',
+      'editorWidget.background': '#0F172A',
+      'editorWidget.border': '#1E293B'
+    }
+  });
+
+  monaco.editor.setTheme(currentTheme());
+
+  if (typeof window.matchMedia === 'function') {
+    const mq = window.matchMedia(DARK_QUERY);
+    const onChange = function () { monaco.editor.setTheme(currentTheme()); };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  }
 
   const ts = monaco.languages.typescript;
   const options = {
